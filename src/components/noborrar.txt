@@ -1,0 +1,47 @@
+// buscador 
+
+import { useState } from "react"
+import { BaseColaboradores } from "./BaseColaboradores"
+
+
+const Buscador = () => {
+
+    const [Colaboradores, setColaboradores] = useState(BaseColaboradores);
+    const [busqueda, setBusqueda] = useState("")
+    const [resultado, setResultado] = useState([])
+
+    // Función para buscar
+
+    const buscar = (e) => {
+        setBusqueda(e.target.value)
+        if (busqueda !== "") {
+            const filtro = Colaboradores.filter((colaborador) => {
+                return colaborador.nombre.toLowerCase().includes(busqueda.toLowerCase())
+            })
+            setResultado(filtro)
+        } else {
+            setResultado(Colaboradores)
+        }
+    }
+
+    // Input de búsqueda
+
+    return (
+        <>
+            <div>
+                <input type="text" placeholder="Buscar" onChange={buscar} />
+            </div>
+            <ul>
+                {resultado.map((colaborador) => (
+                    <li key={colaborador.id}>
+                        {colaborador.nombre}
+                    </li>
+                ))}
+            </ul>
+        </>
+    )
+
+
+}
+
+export default Buscador
