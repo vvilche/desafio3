@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { BaseColaboradores } from "./BaseColaboradores";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
@@ -14,7 +14,7 @@ import Alerta from "./Alert"
   //);
 //}; 
 
-const Formulario = () => {
+const Formulario = ({setColaboradores}) => {
   const [usuarios, setUsuarios] = useState(BaseColaboradores);
   const [nuevoUsuario, setNuevoUsuario] = useState({
     nombre: "",
@@ -25,6 +25,7 @@ const Formulario = () => {
   });
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
   const [mensajeAlerta, setMensajeAlerta] = useState("");
+  const form = useRef();
 
 
   // Capturo los datos del formulario
@@ -41,7 +42,7 @@ const Formulario = () => {
       nuevoUsuario.cargo.trim() &&
       nuevoUsuario.telefono.trim()
     ) {
-      return true
+      return true;
 
      
     } else {
@@ -69,18 +70,20 @@ const Formulario = () => {
       setMostrarAlerta(true);
       return;
     }
-
-    setNuevoUsuario({ ...nuevoUsuario, id: Date.now() });
+    setNuevoUsuario({ ...nuevoUsuario, id: Math.random() });
     usuarios.push(nuevoUsuario);
 
     // Actualizar el estado de la lista de usuarios
-    setUsuarios([...usuarios]);
+    //setUsuarios([usuarios]);
+    setColaboradores([...usuarios])
+
 
     // Ocultar la alerta
     setMostrarAlerta(false);
 
     // Mostrar mensaje de éxito
     setMensajeAlerta("Usuario creado correctamente");
+    form.current.reset()
     setMostrarAlerta(true);
   };
 
@@ -92,7 +95,7 @@ const Formulario = () => {
 
     <div className="formulario">
         <h2>Agregar Colaborador</h2>
-        <Form onSubmit={handleSubmit}>
+        <Form ref={form} onSubmit={handleSubmit}>
           <FloatingLabel className="mb-3"
             controlId="nombre"
             label="Nombre"

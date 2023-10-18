@@ -21,7 +21,7 @@ return (
 
     <>
     <Buscador placeholder="Buscar colaborador..." colaboradores={Colaboradores} />
-    <Formulario />
+    <Formulario setColaboradores={setColaboradores}/>
     </>
     
     )
